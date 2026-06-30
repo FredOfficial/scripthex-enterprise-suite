@@ -1,13 +1,13 @@
 import "./RecentActivities.css";
 
 const activities = [
-  "New employee added",
+  "Juan Dela Cruz added",
 
   "Inventory updated",
 
-  "Attendance approved",
+  "Attendance Approved Yesterday",
 
-  "Monthly report generated",
+  "Payroll Generated",
 ];
 
 const RecentActivities = () => {

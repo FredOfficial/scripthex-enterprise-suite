@@ -1,17 +1,6 @@
 .chart-card {
   background: white;
-  border-radius: 18px;
   padding: 24px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-}
-
-.chart-placeholder {
-  height: 320px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f8fafc;
-  border-radius: 14px;
-  color: #94a3b8;
-  margin-top: 20px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
