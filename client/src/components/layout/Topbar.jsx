@@ -1,9 +1,15 @@
+import "./Topbar.css";
+
 const Topbar = () => {
   return (
     <header className="topbar">
-      <h4>Dashboard</h4>
+      <h2>Dashboard</h2>
 
-      <div>🔔 👤 Freddie</div>
+      <div className="topbar-right">
+        <i className="bi bi-bell"></i>
+
+        <div className="user-avatar">FM</div>
+      </div>
     </header>
   );
 };

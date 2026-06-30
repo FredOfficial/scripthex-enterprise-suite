@@ -1,0 +1,14 @@
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.dashboard-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.dashboard-header p {
+  color: #64748b;
+  margin: 0;
+}

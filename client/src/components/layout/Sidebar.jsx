@@ -1,12 +1,13 @@
+import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
-const menus = [
-  { icon: "bi-grid", label: "Dashboard" },
-  { icon: "bi-people", label: "Employees" },
-  { icon: "bi-clock-history", label: "Attendance" },
-  { icon: "bi-box-seam", label: "Inventory" },
-  { icon: "bi-bar-chart", label: "Reports" },
-  { icon: "bi-gear", label: "Settings" },
+const menuItems = [
+  { icon: "bi-grid", label: "Dashboard", path: "/dashboard" },
+  { icon: "bi-people", label: "Employees", path: "/employees" },
+  { icon: "bi-clock-history", label: "Attendance", path: "/attendance" },
+  { icon: "bi-box-seam", label: "Inventory", path: "/inventory" },
+  { icon: "bi-bar-chart", label: "Reports", path: "/reports" },
+  { icon: "bi-gear", label: "Settings", path: "/settings" },
 ];
 
 const Sidebar = () => {
@@ -16,18 +17,23 @@ const Sidebar = () => {
         <div className="logo-icon">⬢</div>
 
         <div>
-          <h4>ScriptHex</h4>
+          <h3>ScriptHex</h3>
           <span>Enterprise Suite</span>
         </div>
       </div>
 
       <nav className="sidebar-menu">
-        {menus.map((menu) => (
-          <button key={menu.label} className="menu-item">
-            <i className={`bi ${menu.icon}`}></i>
-
-            <span>{menu.label}</span>
-          </button>
+        {menuItems.map((item) => (
+          <NavLink
+            key={item.label}
+            to={item.path}
+            className={({ isActive }) =>
+              `menu-item ${isActive ? "active" : ""}`
+            }
+          >
+            <i className={`bi ${item.icon}`}></i>
+            <span>{item.label}</span>
+          </NavLink>
         ))}
       </nav>
 

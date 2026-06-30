@@ -1,3 +1,4 @@
+import "./AppLayout.css";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
@@ -6,10 +7,10 @@ const AppLayout = ({ children }) => {
     <div className="app-layout">
       <Sidebar />
 
-      <div className="main-wrapper">
+      <div className="app-main">
         <Topbar />
 
-        <main>{children}</main>
+        <main className="app-content">{children}</main>
       </div>
     </div>
   );
