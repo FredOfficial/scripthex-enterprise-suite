@@ -1,36 +1,55 @@
-.stat-card {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
+.sh-stat-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px;
   display: flex;
   align-items: center;
   gap: 18px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  transition: 0.25s;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+  transition: 0.2s;
 }
 
-.stat-card:hover {
+.sh-stat-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
 }
 
-.stat-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 14px;
-  background: #eff6ff;
+.sh-stat-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 26px;
+}
+
+.sh-stat-blue .sh-stat-icon {
+  background: #dbeafe;
   color: #2563eb;
-  font-size: 24px;
 }
 
-.stat-card p {
-  margin: 0;
+.sh-stat-green .sh-stat-icon {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.sh-stat-orange .sh-stat-icon {
+  background: #fef3c7;
+  color: #f59e0b;
+}
+
+.sh-stat-red .sh-stat-icon {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.sh-stat-content span {
   color: #64748b;
+  font-size: 14px;
 }
 
-.stat-card h3 {
+.sh-stat-content h2 {
   margin-top: 6px;
   font-size: 28px;
   font-weight: 700;

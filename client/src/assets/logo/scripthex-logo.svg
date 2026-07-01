@@ -1,0 +1,7 @@
+<svg width="180" height="48" viewBox="0 0 180 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="48" height="48" rx="14" fill="#2563EB"></rect>
+  <path d="M24 10L36 17V31L24 38L12 31V17L24 10Z" fill="white" fill-opacity="0.95"></path>
+  <path d="M18 19L24 15L30 19V25L24 29L18 25V19Z" fill="#2563EB"></path>
+  <text x="60" y="24" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#0F172A">ScriptHex</text>
+  <text x="61" y="39" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="600" letter-spacing="2" fill="#64748B">ENTERPRISE SUITE</text>
+</svg>

@@ -1,4 +1,7 @@
-import StatCard from "../../../../components/ui/StatCard";
+import { FiBox, FiClock, FiDollarSign, FiUsers } from "react-icons/fi";
+
+import { StatCard } from "../../../../components/ui";
+
 import "./DashboardStats.css";
 
 const DashboardStats = ({ stats }) => {
@@ -8,7 +11,8 @@ const DashboardStats = ({ stats }) => {
         <StatCard
           title="Employees"
           value={stats.employees}
-          icon="bi-people-fill"
+          icon={<FiUsers />}
+          color="blue"
         />
       </div>
 
@@ -16,7 +20,8 @@ const DashboardStats = ({ stats }) => {
         <StatCard
           title="Attendance"
           value={stats.attendance}
-          icon="bi-clock-history"
+          icon={<FiClock />}
+          color="green"
         />
       </div>
 
@@ -24,7 +29,8 @@ const DashboardStats = ({ stats }) => {
         <StatCard
           title="Inventory"
           value={stats.inventory}
-          icon="bi-box-seam"
+          icon={<FiBox />}
+          color="orange"
         />
       </div>
 
@@ -32,7 +38,8 @@ const DashboardStats = ({ stats }) => {
         <StatCard
           title="Revenue"
           value={`₱${stats.revenue.toLocaleString()}`}
-          icon="bi-cash-stack"
+          icon={<FiDollarSign />}
+          color="red"
         />
       </div>
     </div>

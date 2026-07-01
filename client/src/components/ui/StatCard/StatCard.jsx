@@ -1,15 +1,14 @@
 import "./StatCard.css";
 
-const StatCard = ({ title, value, icon }) => {
+const StatCard = ({ title, value, icon, color = "blue" }) => {
   return (
-    <div className="stat-card">
-      <div className="stat-icon">
-        <i className={`bi ${icon}`}></i>
-      </div>
+    <div className={`sh-stat-card sh-stat-${color}`}>
+      <div className="sh-stat-icon">{icon}</div>
 
-      <div>
-        <p>{title}</p>
-        <h3>{value}</h3>
+      <div className="sh-stat-content">
+        <span>{title}</span>
+
+        <h2>{value}</h2>
       </div>
     </div>
   );

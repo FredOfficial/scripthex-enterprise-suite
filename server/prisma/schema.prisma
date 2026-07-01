@@ -1,13 +1,104 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+}
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  users     User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String?
+  provider  String   @default("local")
+
+  roleId    Int
+  role      Role     @relation(fields: [roleId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+  RESIGNED
+  TERMINATED
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERN
+  PROBATIONARY
+}
+
+model Department {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  employees Employee[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Position {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  employees Employee[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Employee {
+  id           Int            @id @default(autoincrement())
+  employeeNo   String         @unique
+
+  photo        String?
+  qrCode       String?
+  rfidCard     String?
+
+  firstName    String
+  middleName   String?
+  lastName     String
+  suffix       String?
+
+  gender       String?
+  birthDate    DateTime?
+  civilStatus  String?
+  nationality  String?
+
+  email        String?        @unique
+  phone        String?
+  address      String?
+
+  emergencyContactName  String?
+  emergencyContactPhone String?
+
+  departmentId Int?
+  positionId   Int?
+
+  department   Department?    @relation(fields: [departmentId], references: [id])
+  position     Position?      @relation(fields: [positionId], references: [id])
+
+  employmentType EmploymentType @default(FULL_TIME)
+  status         EmployeeStatus @default(ACTIVE)
+
+  hiredAt      DateTime
+  salary       Decimal?         @db.Decimal(10, 2)
+
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
 }

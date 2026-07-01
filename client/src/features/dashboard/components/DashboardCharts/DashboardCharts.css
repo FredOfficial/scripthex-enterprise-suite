@@ -1,6 +1,15 @@
 .chart-card {
   background: white;
-  padding: 24px;
   border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.chart-card h5 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.chart-container {
+  height: 350px;
 }

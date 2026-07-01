@@ -1,26 +1,89 @@
-.btn-sh {
+.sh-btn {
   border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-weight: 600;
+  border-radius: 12px;
   cursor: pointer;
-  transition: 0.25s;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.btn-primary {
+.sh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+
+.sh-btn-sm {
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.sh-btn-md {
+  padding: 12px 20px;
+  font-size: 15px;
+}
+
+.sh-btn-lg {
+  padding: 14px 24px;
+  font-size: 16px;
+}
+
+/* Primary */
+
+.sh-btn-primary {
   background: #2563eb;
-  color: white;
+  color: #fff;
 }
 
-.btn-primary:hover {
+.sh-btn-primary:hover {
   background: #1d4ed8;
 }
 
-.btn-secondary {
-  background: #e5e7eb;
+/* Secondary */
+
+.sh-btn-secondary {
+  background: #e2e8f0;
+  color: #1e293b;
 }
 
-.btn-danger {
-  background: #ef4444;
+.sh-btn-secondary:hover {
+  background: #cbd5e1;
+}
+
+/* Success */
+
+.sh-btn-success {
+  background: #16a34a;
   color: white;
+}
+
+.sh-btn-success:hover {
+  background: #15803d;
+}
+
+/* Danger */
+
+.sh-btn-danger {
+  background: #dc2626;
+  color: white;
+}
+
+.sh-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* Outline */
+
+.sh-btn-outline {
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+.sh-btn-outline:hover {
+  background: #f8fafc;
 }

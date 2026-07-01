@@ -12,25 +12,25 @@ import { getDashboardStats } from "../services/dashboardService";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const [stats, setStats] = useState(null);
+  const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
-    getDashboardStats().then(setStats);
+    getDashboardStats().then(setDashboardData);
   }, []);
 
-  if (!stats) return <p>Loading...</p>;
+  if (!dashboardData) return <p>Loading...</p>;
 
   return (
     <AppLayout>
       <div className="dashboard-content">
         <DashboardHeader />
 
-        <DashboardStats stats={stats} />
+        <DashboardStats stats={dashboardData.stats} />
 
         <div className="dashboard-grid">
           <DashboardCharts />
 
-          <RecentActivities />
+          <RecentActivities activities={dashboardData.activities} />
         </div>
       </div>
     </AppLayout>
