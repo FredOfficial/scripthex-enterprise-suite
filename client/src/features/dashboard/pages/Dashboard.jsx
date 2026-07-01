@@ -13,11 +13,20 @@ import { getDashboardStats } from "../services/dashboardService";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const [stats, setStats] = useState({
-    employees: 0,
-    attendance: 0,
-    inventory: 0,
-    revenue: 0,
+  const [dashboard, setDashboard] = useState({
+    stats: {
+      employees: 0,
+      activeEmployees: 0,
+      attendance: 0,
+      inventory: 0,
+      revenue: 0,
+    },
+    charts: {
+      employeesByDepartment: [],
+      employeesByStatus: [],
+      genderDistribution: [],
+      monthlyHires: [],
+    },
   });
 
   const [activities] = useState([
@@ -31,7 +40,7 @@ const Dashboard = () => {
   const fetchDashboard = async () => {
     try {
       const result = await getDashboardStats();
-      setStats(result.data);
+      setDashboard(result.data);
     } catch (error) {
       console.error("Failed to fetch dashboard:", error);
     } finally {
@@ -47,9 +56,15 @@ const Dashboard = () => {
     <AppLayout>
       <div className="dashboard-content">
         <DashboardHeader />
-        {loading ? <DashboardSkeleton /> : <DashboardStats stats={stats} />}
+
+        {loading ? (
+          <DashboardSkeleton />
+        ) : (
+          <DashboardStats stats={dashboard.stats} />
+        )}
+
         <div className="dashboard-grid">
-          <DashboardCharts />
+          <DashboardCharts charts={dashboard.charts} />
 
           <RecentActivities activities={activities} />
         </div>
