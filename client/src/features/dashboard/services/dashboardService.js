@@ -1,17 +1,16 @@
-export const getDashboardStats = () => {
-  return Promise.resolve({
-    stats: {
-      employees: 128,
-      attendance: "98%",
-      inventory: 542,
-      revenue: 152300,
-    },
+import axios from "axios";
 
-    activities: [
-      "Juan Dela Cruz added",
-      "Attendance Approved",
-      "Inventory Updated",
-      "Payroll Generated",
-    ],
-  });
+const API_URL = "http://localhost:5001/api";
+
+const authConfig = () => ({
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  },
+  withCredentials: true,
+});
+
+export const getDashboardStats = async () => {
+  const response = await axios.get(`${API_URL}/dashboard`, authConfig());
+
+  return response.data;
 };
