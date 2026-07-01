@@ -38,6 +38,9 @@ const Employees = () => {
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [deleteEmployeeData, setDeleteEmployeeData] = useState(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const fetchEmployees = async () => {
     try {
       const result = await getEmployees();
@@ -64,7 +67,8 @@ const Employees = () => {
   useEffect(() => {
     fetchEmployees();
     loadDropdowns();
-  }, []);
+    setCurrentPage(1);
+  }, [search, departmentFilter, positionFilter, statusFilter]);
 
   const filteredEmployees = employees.filter((employee) => {
     const keyword = search.toLowerCase();
@@ -89,6 +93,16 @@ const Employees = () => {
       matchesSearch && matchesDepartment && matchesPosition && matchesStatus
     );
   });
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredEmployees.length / itemsPerPage),
+  );
+
+  const paginatedEmployees = filteredEmployees.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
 
   return (
     <AppLayout>
@@ -257,7 +271,7 @@ const Employees = () => {
               </thead>
 
               <tbody>
-                {filteredEmployees.map((employee) => (
+                {paginatedEmployees.map((employee) => (
                   <tr key={employee.id}>
                     <td>{employee.employeeNo}</td>
                     <td>
@@ -304,6 +318,27 @@ const Employees = () => {
                 ))}
               </tbody>
             </table>
+          )}
+          {!loading && filteredEmployees.length > 0 && (
+            <div className="pagination">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                Previous
+              </button>
+
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                Next
+              </button>
+            </div>
           )}
         </div>
 
