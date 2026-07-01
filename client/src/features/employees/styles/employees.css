@@ -453,3 +453,18 @@
   background: #dc2626;
   color: white;
 }
+
+.employee-skeleton-table {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.employee-skeleton-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1.4fr 1fr 1fr 1.2fr;
+  gap: 18px;
+  align-items: center;
+  padding: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}

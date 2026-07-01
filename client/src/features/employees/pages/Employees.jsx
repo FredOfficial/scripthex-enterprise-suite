@@ -19,6 +19,7 @@ import {
 } from "../services/employeeService";
 
 import DeleteEmployeeModal from "../components/DeleteEmployeeModal";
+import EmployeeSkeleton from "../components/EmployeeSkeleton";
 import "../styles/employees.css";
 
 const Employees = () => {
@@ -102,39 +103,67 @@ const Employees = () => {
         </div>
 
         <div className="employee-stats-grid">
-          <StatCard
-            title="Employees"
-            value={employees.length}
-            icon={<FiUsers />}
-          />
+          {loading ? (
+            <>
+              <StatCard title="Employees" value="—" icon={<FiUsers />} />
+              <StatCard
+                title="Active"
+                value="—"
+                icon={<FiUserCheck />}
+                color="green"
+              />
+              <StatCard
+                title="Probation"
+                value="—"
+                icon={<FiClock />}
+                color="orange"
+              />
+              <StatCard
+                title="Inactive"
+                value="—"
+                icon={<FiUserMinus />}
+                color="red"
+              />
+            </>
+          ) : (
+            <>
+              <StatCard
+                title="Employees"
+                value={employees.length}
+                icon={<FiUsers />}
+              />
 
-          <StatCard
-            title="Active"
-            value={employees.filter((e) => e.status === "ACTIVE").length}
-            icon={<FiUserCheck />}
-            color="green"
-          />
+              <StatCard
+                title="Active"
+                value={employees.filter((e) => e.status === "ACTIVE").length}
+                icon={<FiUserCheck />}
+                color="green"
+              />
 
-          <StatCard
-            title="Probation"
-            value={employees.filter((e) => e.status === "PROBATIONARY").length}
-            icon={<FiClock />}
-            color="orange"
-          />
+              <StatCard
+                title="Probation"
+                value={
+                  employees.filter((e) => e.status === "PROBATIONARY").length
+                }
+                icon={<FiClock />}
+                color="orange"
+              />
 
-          <StatCard
-            title="Inactive"
-            value={
-              employees.filter(
-                (e) =>
-                  e.status === "INACTIVE" ||
-                  e.status === "RESIGNED" ||
-                  e.status === "TERMINATED",
-              ).length
-            }
-            icon={<FiUserMinus />}
-            color="red"
-          />
+              <StatCard
+                title="Inactive"
+                value={
+                  employees.filter(
+                    (e) =>
+                      e.status === "INACTIVE" ||
+                      e.status === "RESIGNED" ||
+                      e.status === "TERMINATED",
+                  ).length
+                }
+                icon={<FiUserMinus />}
+                color="red"
+              />
+            </>
+          )}
         </div>
 
         {openModal && (
@@ -162,12 +191,14 @@ const Employees = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search employee..."
+              disabled={loading}
             />
           </div>
 
           <select
             value={departmentFilter}
             onChange={(e) => setDepartmentFilter(e.target.value)}
+            disabled={loading}
           >
             <option value="">All Departments</option>
 
@@ -181,6 +212,7 @@ const Employees = () => {
           <select
             value={positionFilter}
             onChange={(e) => setPositionFilter(e.target.value)}
+            disabled={loading}
           >
             <option value="">All Positions</option>
 
@@ -194,6 +226,7 @@ const Employees = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
+            disabled={loading}
           >
             <option value="">All Status</option>
             <option value="ACTIVE">Active</option>
@@ -206,7 +239,7 @@ const Employees = () => {
 
         <div className="employees-table-card">
           {loading ? (
-            <p>Loading employees...</p>
+            <EmployeeSkeleton />
           ) : filteredEmployees.length === 0 ? (
             <p>No employees found.</p>
           ) : (
