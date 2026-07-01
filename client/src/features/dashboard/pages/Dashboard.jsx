@@ -29,11 +29,7 @@ const Dashboard = () => {
     },
   });
 
-  const [activities] = useState([
-    "Employee records updated",
-    "Dashboard data synced",
-    "System authentication active",
-  ]);
+  const [activities, setActivities] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -41,6 +37,7 @@ const Dashboard = () => {
     try {
       const result = await getDashboardStats();
       setDashboard(result.data);
+      setActivities(result.data.recentActivities || []);
     } catch (error) {
       console.error("Failed to fetch dashboard:", error);
     } finally {
@@ -63,7 +60,7 @@ const Dashboard = () => {
           <DashboardStats stats={dashboard.stats} />
         )}
 
-        <div className="dashboard-grid">
+        <div className="dashboard-main">
           <DashboardCharts charts={dashboard.charts} />
 
           <RecentActivities activities={activities} />

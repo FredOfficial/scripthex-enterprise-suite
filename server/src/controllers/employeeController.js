@@ -1,4 +1,5 @@
 const employeeService = require("../services/employeeService");
+const activityService = require("../services/activityService");
 
 const getEmployees = async (req, res) => {
   try {
@@ -20,6 +21,13 @@ const createEmployee = async (req, res) => {
   try {
     const employee = await employeeService.createEmployee(req.body);
 
+    await activityService.createActivity({
+      action: "CREATE",
+      module: "EMPLOYEE",
+      actor: req.user && req.user.name ? req.user.name : "System Administrator",
+      description: `created employee ${employee.firstName} ${employee.lastName}`,
+    });
+
     res.status(201).json({
       message: "Employee created successfully.",
       data: employee,
@@ -39,6 +47,13 @@ const updateEmployee = async (req, res) => {
       req.body,
     );
 
+    await activityService.createActivity({
+      action: "UPDATE",
+      module: "EMPLOYEE",
+      actor: req.user && req.user.name ? req.user.name : "System Administrator",
+      description: `updated employee ${employee.firstName} ${employee.lastName}`,
+    });
+
     res.json({
       message: "Employee updated successfully.",
       data: employee,
@@ -53,7 +68,14 @@ const updateEmployee = async (req, res) => {
 
 const deleteEmployee = async (req, res) => {
   try {
-    await employeeService.deleteEmployee(req.params.id);
+    const employee = await employeeService.deleteEmployee(req.params.id);
+
+    await activityService.createActivity({
+      action: "DELETE",
+      module: "EMPLOYEE",
+      actor: req.user && req.user.name ? req.user.name : "System Administrator",
+      description: `deleted employee ${employee.firstName} ${employee.lastName}`,
+    });
 
     res.json({
       message: "Employee deleted successfully.",

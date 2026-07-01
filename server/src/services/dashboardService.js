@@ -1,4 +1,5 @@
 const prisma = require("../config/prisma");
+const activityService = require("./activityService");
 
 const getDashboardStats = async () => {
   const employees = await prisma.employee.count();
@@ -42,6 +43,7 @@ const getDashboardStats = async () => {
       hiredAt: true,
     },
   });
+  const recentActivities = await activityService.getRecentActivities();
 
   return {
     stats: {
@@ -72,6 +74,7 @@ const getDashboardStats = async () => {
         hiredAt: item.hiredAt,
       })),
     },
+    recentActivities,
   };
 };
 

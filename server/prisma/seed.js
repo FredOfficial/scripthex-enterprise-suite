@@ -62,7 +62,7 @@ async function main() {
     },
     update: {},
     create: {
-      name: "System Administrator",
+      name: "Scripthex Admin",
       email: "admin@scripthex.com",
       password: hashedPassword,
       provider: "local",

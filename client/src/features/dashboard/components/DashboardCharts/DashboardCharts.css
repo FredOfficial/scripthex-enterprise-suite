@@ -1,8 +1,9 @@
 .chart-card {
-  background: white;
+  background: #ffffff;
   border-radius: 18px;
-  padding: 24px;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+  padding: 22px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+  min-height: 360px;
 }
 
 .chart-card h5 {
@@ -11,7 +12,8 @@
 }
 
 .chart-container {
-  height: 350px;
+  width: 100%;
+  height: 280px;
 }
 
 .chart-empty {
@@ -24,4 +26,16 @@
   background: #f8fafc;
   border-radius: 14px;
   border: 1px dashed #cbd5e1;
+}
+
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 992px) {
+  .dashboard-charts {
+    grid-template-columns: 1fr;
+  }
 }

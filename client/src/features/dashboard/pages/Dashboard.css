@@ -5,8 +5,8 @@
 }
 
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 24px;
 }
 
@@ -48,4 +48,10 @@
   .dashboard-skeleton-stats {
     grid-template-columns: 1fr;
   }
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }

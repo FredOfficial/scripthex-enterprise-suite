@@ -29,6 +29,15 @@ const ChartEmpty = () => {
   return <div className="chart-empty">No data available yet</div>;
 };
 
+const formatLabel = (value) => {
+  if (!value) return "Unknown";
+
+  return value
+    .replaceAll("_", " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 const DashboardCharts = ({ charts }) => {
   const monthlyData = Object.values(
     charts.monthlyHires.reduce((acc, item) => {
@@ -109,7 +118,12 @@ const DashboardCharts = ({ charts }) => {
         <div className="chart-container">
           {hasData(charts.employeesByStatus) ? (
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={charts.employeesByStatus}>
+              <BarChart
+                data={charts.employeesByStatus.map((item) => ({
+                  ...item,
+                  label: formatLabel(item.label),
+                }))}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="label" />
                 <YAxis allowDecimals={false} />
@@ -131,7 +145,10 @@ const DashboardCharts = ({ charts }) => {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={charts.genderDistribution}
+                  data={charts.genderDistribution.map((item) => ({
+                    ...item,
+                    label: formatLabel(item.label),
+                  }))}
                   dataKey="value"
                   nameKey="label"
                   innerRadius={55}

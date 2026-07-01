@@ -1,3 +1,5 @@
+const authMiddleware = require("../middlewares/authMiddleware");
+
 const express = require("express");
 
 console.log("✅ employeeRoutes loaded");
@@ -11,9 +13,10 @@ const {
 
 const router = express.Router();
 
-router.get("/", getEmployees);
-router.post("/", createEmployee);
-router.put("/:id", updateEmployee);
+router.get("/", authMiddleware, getEmployees);
+router.post("/", authMiddleware, createEmployee);
+router.put("/:id", authMiddleware, updateEmployee);
+router.delete("/:id", authMiddleware, deleteEmployee);
 
 console.log("DELETE route registered");
 
