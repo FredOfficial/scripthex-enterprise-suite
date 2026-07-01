@@ -101,6 +101,8 @@ model Employee {
 
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
+  
+  attendances Attendance[]
 }
 
 model ActivityLog {
@@ -110,4 +112,26 @@ model ActivityLog {
   description String
   actor       String   @default("System Administrator")
   createdAt   DateTime @default(now())
+}
+
+enum AttendanceStatus {
+  PRESENT
+  LATE
+  ABSENT
+  HALF_DAY
+}
+
+model Attendance {
+  id          Int              @id @default(autoincrement())
+  employeeId  Int
+  employee    Employee         @relation(fields: [employeeId], references: [id])
+
+  date        DateTime
+  timeIn      DateTime?
+  timeOut     DateTime?
+  status      AttendanceStatus @default(PRESENT)
+  remarks     String?
+
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 }
