@@ -1,0 +1,148 @@
+.enterprise-calendar-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.calendar-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.calendar-toolbar h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.calendar-toolbar p {
+    margin: 4px 0 0;
+    color: #64748b;
+}
+
+.calendar-toolbar-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.calendar-toolbar-actions button,
+.calendar-toolbar-actions select {
+    border: none;
+    background: #f1f5f9;
+    color: #334155;
+    padding: 9px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.calendar-toolbar-actions button:hover {
+    background: #e2e8f0;
+}
+
+.rbc-calendar {
+    font-family: inherit;
+}
+
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.rbc-header {
+    padding: 12px;
+    font-weight: 800;
+    color: #475569;
+    background: #f8fafc;
+}
+
+.rbc-date-cell {
+    padding: 8px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.rbc-off-range-bg {
+    background: #f8fafc;
+}
+
+.rbc-today {
+    background: #eff6ff;
+}
+
+.calendar-event {
+    border: none;
+    border-radius: 8px;
+    padding: 3px 6px;
+    font-weight: 700;
+}
+
+.calendar-event-present {
+    background: #dcfce7 !important;
+    color: #166534 !important;
+}
+
+.calendar-event-late {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+}
+
+.calendar-event-absent {
+    background: #fee2e2 !important;
+    color: #991b1b !important;
+}
+
+.calendar-event-half_day {
+    background: #dbeafe !important;
+    color: #1d4ed8 !important;
+}
+
+.calendar-event-default {
+    background: #e2e8f0 !important;
+    color: #334155 !important;
+}
+
+.calendar-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.calendar-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #475569;
+    font-weight: 700;
+}
+
+.legend-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.legend-present {
+    background: #22c55e;
+}
+
+.legend-late {
+    background: #f59e0b;
+}
+
+.legend-absent {
+    background: #ef4444;
+}
+
+.legend-half_day {
+    background: #3b82f6;
+}

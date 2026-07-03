@@ -12,6 +12,7 @@ import {
   timeOutAttendance,
 } from "../services/attendanceService";
 
+import EnterpriseCalendar from "../../../components/calendar/EnterpriseCalendar";
 import AttendanceCharts from "../components/AttendanceCharts";
 import AttendanceDetailsDrawer from "../components/AttendanceDetailsDrawer";
 
@@ -178,6 +179,24 @@ const Attendance = () => {
       .replace(/\b\w/g, (char) => char.toUpperCase());
   };
 
+  const calendarEvents = filteredAttendances.map((attendance) => ({
+    id: attendance.id,
+    title: `${attendance.employee?.firstName || "Employee"} - ${formatStatus(
+      attendance.status,
+    )}`,
+    start: new Date(attendance.date),
+    end: new Date(attendance.date),
+    type: attendance.status.toLowerCase(),
+    resource: attendance,
+  }));
+
+  const calendarLegends = [
+    { type: "present", label: "Present" },
+    { type: "late", label: "Late" },
+    { type: "absent", label: "Absent" },
+    { type: "half_day", label: "Half Day" },
+  ];
+
   return (
     <AppLayout>
       <div className="attendance-page">
@@ -229,6 +248,12 @@ const Attendance = () => {
         <AttendanceCharts
           attendances={filteredAttendances}
           dateFilter={dateFilter}
+        />
+
+        <EnterpriseCalendar
+          events={calendarEvents}
+          legends={calendarLegends}
+          onSelectEvent={(event) => setSelectedAttendance(event.resource)}
         />
 
         <div className="attendance-action-card">
