@@ -13,6 +13,9 @@ import {
 } from "../services/attendanceService";
 
 import EnterpriseCalendar from "../../../components/calendar/EnterpriseCalendar";
+import { exportAttendanceExcel } from "../../../utils/export/exportAttendanceExcel";
+import { exportAttendancePDF } from "../../../utils/export/exportAttendancePDF";
+import printAttendance from "../../../utils/print/printAttendance";
 import AttendanceCharts from "../components/AttendanceCharts";
 import AttendanceDetailsDrawer from "../components/AttendanceDetailsDrawer";
 
@@ -26,6 +29,7 @@ const Attendance = () => {
   const [loading, setLoading] = useState(true);
   const [selectedAttendance, setSelectedAttendance] = useState(null);
   const [dateFilter, setDateFilter] = useState("today");
+  const [openActions, setOpenActions] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -50,14 +54,14 @@ const Attendance = () => {
   }, []);
 
   const selectedEmployee = employees.find(
-    (employee) => String(employee.id) === String(selectedEmployeeId),
+    (employee) => String(employee.id) === String(selectedEmployeeId)
   );
 
   const activeAttendance = attendances.find(
     (attendance) =>
       String(attendance.employeeId) === String(selectedEmployeeId) &&
       attendance.timeIn &&
-      !attendance.timeOut,
+      !attendance.timeOut
   );
 
   const filterByDateRange = (attendance) => {
@@ -182,7 +186,7 @@ const Attendance = () => {
   const calendarEvents = filteredAttendances.map((attendance) => ({
     id: attendance.id,
     title: `${attendance.employee?.firstName || "Employee"} - ${formatStatus(
-      attendance.status,
+      attendance.status
     )}`,
     start: new Date(attendance.date),
     end: new Date(attendance.date),
@@ -335,6 +339,41 @@ const Attendance = () => {
             >
               All
             </button>
+          </div>
+          <div className="attendance-actions">
+            <Button onClick={() => setOpenActions(!openActions)}>
+              Actions ▾
+            </Button>
+
+            {openActions && (
+              <div className="attendance-actions-menu">
+                <button
+                  onClick={() => {
+                    exportAttendanceExcel(filteredAttendances, dateFilter);
+                    setOpenActions(false);
+                  }}
+                >
+                  Export Excel
+                </button>
+
+                <button
+                  onClick={() => {
+                    exportAttendancePDF(filteredAttendances, dateFilter);
+                    setOpenActions(false);
+                  }}
+                >
+                  Export PDF
+                </button>
+                <button
+                  onClick={() => {
+                    printAttendance(filteredAttendances, dateFilter);
+                    setOpenActions(false);
+                  }}
+                >
+                  Print Attendance
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
