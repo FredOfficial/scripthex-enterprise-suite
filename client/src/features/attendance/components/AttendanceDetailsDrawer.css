@@ -1,0 +1,69 @@
+.attendance-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.attendance-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.attendance-profile h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.attendance-profile small {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.attendance-profile p {
+  margin: 5px 0 0;
+  color: #475569;
+}
+
+.attendance-grid {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #e5e7eb;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 18px;
+}
+
+.attendance-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.attendance-grid label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.attendance-grid span {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}

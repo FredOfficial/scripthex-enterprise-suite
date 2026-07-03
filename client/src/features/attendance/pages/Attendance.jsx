@@ -12,6 +12,9 @@ import {
   timeOutAttendance,
 } from "../services/attendanceService";
 
+import AttendanceCharts from "../components/AttendanceCharts";
+import AttendanceDetailsDrawer from "../components/AttendanceDetailsDrawer";
+
 import "../styles/attendance.css";
 
 const Attendance = () => {
@@ -20,6 +23,8 @@ const Attendance = () => {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [selectedAttendance, setSelectedAttendance] = useState(null);
+  const [dateFilter, setDateFilter] = useState("today");
 
   const fetchData = async () => {
     try {
@@ -54,6 +59,38 @@ const Attendance = () => {
       !attendance.timeOut,
   );
 
+  const filterByDateRange = (attendance) => {
+    const attendanceDate = new Date(attendance.date);
+    const now = new Date();
+
+    if (dateFilter === "all") return true;
+
+    if (dateFilter === "today") {
+      return attendanceDate.toDateString() === now.toDateString();
+    }
+
+    if (dateFilter === "week") {
+      const startOfWeek = new Date(now);
+      startOfWeek.setDate(now.getDate() - now.getDay());
+      startOfWeek.setHours(0, 0, 0, 0);
+
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6);
+      endOfWeek.setHours(23, 59, 59, 999);
+
+      return attendanceDate >= startOfWeek && attendanceDate <= endOfWeek;
+    }
+
+    if (dateFilter === "month") {
+      return (
+        attendanceDate.getMonth() === now.getMonth() &&
+        attendanceDate.getFullYear() === now.getFullYear()
+      );
+    }
+
+    return true;
+  };
+
   const todayAttendances = attendances.filter((attendance) => {
     const today = new Date().toDateString();
     return new Date(attendance.date).toDateString() === today;
@@ -65,10 +102,13 @@ const Attendance = () => {
       attendance.employee?.middleName || ""
     } ${attendance.employee?.lastName || ""}`.toLowerCase();
 
-    return (
+    const matchesSearch =
       fullName.includes(keyword) ||
-      attendance.employee?.employeeNo?.toLowerCase().includes(keyword)
-    );
+      attendance.employee?.employeeNo?.toLowerCase().includes(keyword);
+
+    const matchesDate = filterByDateRange(attendance);
+
+    return matchesSearch && matchesDate;
   });
 
   const handleTimeIn = async () => {
@@ -116,6 +156,28 @@ const Attendance = () => {
     });
   };
 
+  const formatWorkingHours = (minutes) => {
+    if (!minutes) return "—";
+
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+
+    if (hours === 0) {
+      return `${mins} mins`;
+    }
+
+    return `${hours}h ${mins}m`;
+  };
+
+  const formatStatus = (status) => {
+    if (!status) return "Unknown";
+
+    return status
+      .replaceAll("_", " ")
+      .toLowerCase()
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
   return (
     <AppLayout>
       <div className="attendance-page">
@@ -128,23 +190,31 @@ const Attendance = () => {
 
         <div className="attendance-stats-grid">
           <StatCard
-            title="Today Records"
-            value={todayAttendances.length}
+            title={`${
+              dateFilter === "today"
+                ? "Today"
+                : dateFilter === "week"
+                  ? "This Week"
+                  : dateFilter === "month"
+                    ? "This Month"
+                    : "All"
+            } Records`}
+            value={filteredAttendances.length}
             icon={<FiUsers />}
           />
 
           <StatCard
             title="Present"
             value={
-              todayAttendances.filter((a) => a.status === "PRESENT").length
+              filteredAttendances.filter((a) => a.status === "PRESENT").length
             }
             icon={<FiLogIn />}
             color="green"
           />
 
           <StatCard
-            title="Pending Time Out"
-            value={todayAttendances.filter((a) => !a.timeOut).length}
+            title="Late"
+            value={todayAttendances.filter((a) => a.status === "LATE").length}
             icon={<FiClock />}
             color="orange"
           />
@@ -156,6 +226,10 @@ const Attendance = () => {
             color="red"
           />
         </div>
+        <AttendanceCharts
+          attendances={filteredAttendances}
+          dateFilter={dateFilter}
+        />
 
         <div className="attendance-action-card">
           <h3>Manual Attendance</h3>
@@ -208,6 +282,35 @@ const Attendance = () => {
               disabled={loading}
             />
           </div>
+          <div className="attendance-date-filters">
+            <button
+              className={dateFilter === "today" ? "active" : ""}
+              onClick={() => setDateFilter("today")}
+            >
+              Today
+            </button>
+
+            <button
+              className={dateFilter === "week" ? "active" : ""}
+              onClick={() => setDateFilter("week")}
+            >
+              This Week
+            </button>
+
+            <button
+              className={dateFilter === "month" ? "active" : ""}
+              onClick={() => setDateFilter("month")}
+            >
+              This Month
+            </button>
+
+            <button
+              className={dateFilter === "all" ? "active" : ""}
+              onClick={() => setDateFilter("all")}
+            >
+              All
+            </button>
+          </div>
         </div>
 
         <div className="attendance-table-card">
@@ -224,8 +327,11 @@ const Attendance = () => {
                   <th>Date</th>
                   <th>Time In</th>
                   <th>Time Out</th>
+                  <th>Late</th>
+                  <th>Hours</th>
                   <th>Status</th>
                   <th>Remarks</th>
+                  <th>Action</th>
                 </tr>
               </thead>
 
@@ -241,20 +347,45 @@ const Attendance = () => {
                     <td>{new Date(attendance.date).toLocaleDateString()}</td>
                     <td>{formatTime(attendance.timeIn)}</td>
                     <td>{formatTime(attendance.timeOut)}</td>
+
+                    <td>
+                      {attendance.lateMinutes
+                        ? `${attendance.lateMinutes} min`
+                        : "—"}
+                    </td>
+
+                    <td>{formatWorkingHours(attendance.workingHours)}</td>
+
                     <td>
                       <span
                         className={`attendance-badge status-${attendance.status.toLowerCase()}`}
                       >
-                        {attendance.status}
+                        {formatStatus(attendance.status)}
                       </span>
                     </td>
+
                     <td>{attendance.remarks || "—"}</td>
+                    <td>
+                      <button
+                        className="table-action"
+                        onClick={() => setSelectedAttendance(attendance)}
+                      >
+                        View
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           )}
         </div>
+        {selectedAttendance && (
+          <AttendanceDetailsDrawer
+            open={!!selectedAttendance}
+            attendance={selectedAttendance}
+            onClose={() => setSelectedAttendance(null)}
+          />
+        )}
       </div>
     </AppLayout>
   );

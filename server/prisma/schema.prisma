@@ -101,8 +101,11 @@ model Employee {
 
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
-  
+
   attendances Attendance[]
+
+  workScheduleId Int?
+  workSchedule   WorkSchedule? @relation(fields: [workScheduleId], references: [id])
 }
 
 model ActivityLog {
@@ -122,16 +125,53 @@ enum AttendanceStatus {
 }
 
 model Attendance {
-  id          Int              @id @default(autoincrement())
-  employeeId  Int
-  employee    Employee         @relation(fields: [employeeId], references: [id])
+  id           Int              @id @default(autoincrement())
+  employeeId   Int
+  employee     Employee         @relation(fields: [employeeId], references: [id])
 
-  date        DateTime
-  timeIn      DateTime?
-  timeOut     DateTime?
-  status      AttendanceStatus @default(PRESENT)
-  remarks     String?
+  date         DateTime
+  timeIn       DateTime?
+  timeOut      DateTime?
 
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  status       AttendanceStatus @default(PRESENT)
+
+  workingHours Int?
+  lateMinutes  Int?
+
+  remarks      String?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model WorkSchedule {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+
+  startTime   String
+  endTime     String
+  gracePeriod Int      @default(0)
+
+  isNightShift Boolean @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  employees Employee[]
+  breaks    WorkScheduleBreak[]
+}
+
+model WorkScheduleBreak {
+  id             Int      @id @default(autoincrement())
+  workScheduleId Int
+
+  name           String
+  startTime      String
+  endTime        String
+  isPaid         Boolean  @default(false)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  workSchedule   WorkSchedule @relation(fields: [workScheduleId], references: [id])
 }
